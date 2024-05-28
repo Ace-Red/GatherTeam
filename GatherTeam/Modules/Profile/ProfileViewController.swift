@@ -61,8 +61,8 @@ class ProfileViewController: UIViewController {
             usernameLabel.text = auth.displayName ?? ""
             
             ref.child("users").child(auth.uid).child("data").child("globalRating").getData { [weak self] error, snapshot in
-                guard let self, let ratings = snapshot?.value as? [Int] else { return }
-                
+                guard let self else { return }
+                let ratings = snapshot?.value as? [Int] ?? [0]
                 let totalRating = ratings.reduce(0, +)
                 usernameLabel.text = "\(auth.displayName ?? "") \n Current rating: \(totalRating/ratings.count)⭐"
             }

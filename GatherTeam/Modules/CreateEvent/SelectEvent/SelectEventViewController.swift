@@ -121,10 +121,10 @@ class SelectEventViewController: UIViewController, UITextViewDelegate {
             var userRates: [Double] = []
             for (index, userId) in event.usersIds.enumerated() {
                 ref.child("users").child(userId).child("data").child("globalRating").getData { [weak self] error, snapshot in
-                    guard let self, let userRating = snapshot?.value as? [Int] else {
+                    guard let self else {
                         return
                     }
-                    
+                    let userRating = snapshot?.value as? [Int] ?? [0]
                     userRates.append(Double(userRating.reduce(0, +)/userRating.count))
                     
                     if index == event.usersIds.count - 1 {
